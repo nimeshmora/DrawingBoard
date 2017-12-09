@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grade 01 - Student Drawing Board</title>
+
+<style>
+body {
+        margin: 0;      
+}
+ 
+#board {
+        margin: 0 auto;
+        width: 500px;   
+}
+ 
+#myCanvas {
+        border: 3px solid Black;        
+}
+
+#appTitle {
+		text-align: center;
+		color: blue;
+}
+</style>
+
+</head>
+<body>
+<h3 id="appTitle">Grade 01 Kids Drawing Board</h3>
+<div id="board">
+<canvas id="myCanvas" width="1000px" height="450px">
+        Try browser with canvas technology
+</canvas>
+<p>Pen Color: <select id="selectColor">
+                  <option id="colBlack" value="black" selected="selected">Black</option>
+                  <option id="colGreen" value="green">Green</option>
+                  <option id="colOrange" value="orange">Orange</option>
+                  <option id="colYellow" value="yellow">Yellow</option>
+				  <option id="colRed" value="Maroon">Maroon</option>
+				  <option id="colYellow" value="Lime">Lime</option>
+				  <option id="colYellow" value="Olive">Olive</option>
+				  <option id="colRed" value="red">Purple</option>
+                  <option id="colBlue" value="blue">Blue</option>
+                  
+</select>
+</p>
+</div><!-- END board -->
+
+<script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js?ver=1.4.2"></script>
+<script type="text/javascript">
+        window.onload = function() {
+                var myCanvas = document.getElementById("myCanvas");     <!-- Defining canvas and assign it to variable called myCanvas-->
+                var curColor = $('#selectColor option:selected').val(); <!-- getting the selected pen color into variable -->
+                if(myCanvas){
+                                var isDown      = false;
+                                var ctx = myCanvas.getContext("2d");
+                                var canvasX, canvasY;
+                                ctx.lineWidth = 6;						<!-- Define the Pen line width-->
+                                 
+                                $(myCanvas)
+                                .mousedown(function(e){
+                                                isDown = true;
+                                                ctx.beginPath();
+                                                canvasX = e.pageX - myCanvas.offsetLeft;		<!-- function to calculate current pen position as x,y coordinates -->
+                                                canvasY = e.pageY - myCanvas.offsetTop;
+                                                ctx.moveTo(canvasX, canvasY);
+                                })
+                                .mousemove(function(e){
+                                                if(isDown != false) {
+                                                        canvasX = e.pageX - myCanvas.offsetLeft;
+                                                        canvasY = e.pageY - myCanvas.offsetTop;			<!--finction to connect the positions while mouse moving-->
+                                                        ctx.lineTo(canvasX, canvasY);
+                                                        ctx.strokeStyle = curColor;
+                                                        ctx.stroke();
+                                                }
+                                })
+                                .mouseup(function(e){
+                                                isDown = false;
+                                                ctx.closePath();
+                                });
+                }
+                 
+                $('#selectColor').change(function () {
+                                curColor = $('#selectColor option:selected').val();    <!-- Get the pen color if it was changed by user-->
+                });
+                 
+        };
+</script>
+
+
+</body>
+</html>
